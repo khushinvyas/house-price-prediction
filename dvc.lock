@@ -1,0 +1,123 @@
+schema: '2.0'
+stages:
+  prep:
+    cmd: python src/data_prep.py
+    deps:
+    - path: data/raw/house_price_prediction.csv
+      hash: md5
+      md5: df202d35c612e9a2c5b73f8fb784d4aa
+      size: 1485526
+    - path: params.yaml
+      hash: md5
+      md5: 74ce9b2edaa13becf88f0306bd854008
+      size: 122
+    - path: src/data_prep.py
+      hash: md5
+      md5: f9681340ac8dfc8bf38014a49dcbed45
+      size: 1075
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 3dbe72593a19f54f1ba42da33fd5a9b1
+      size: 288765
+    - path: data/processed/train.csv
+      hash: md5
+      md5: c4c842835999c06279c90cef75e54a7a
+      size: 1154057
+  feat:
+    cmd: python src/features.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 3dbe72593a19f54f1ba42da33fd5a9b1
+      size: 288765
+    - path: data/processed/train.csv
+      hash: md5
+      md5: c4c842835999c06279c90cef75e54a7a
+      size: 1154057
+    - path: params.yaml
+      hash: md5
+      md5: 74ce9b2edaa13becf88f0306bd854008
+      size: 122
+    - path: src/features.py
+      hash: md5
+      md5: aa1f4f18899f6109d7e857114f65ee2f
+      size: 1424
+    outs:
+    - path: data/processed/test_features.csv
+      hash: md5
+      md5: ec9b2d131cd04c20ce1c9651c8b88316
+      size: 1217604
+    - path: data/processed/train_features.csv
+      hash: md5
+      md5: 6f527f5b19d70166d5bb6526b71db02e
+      size: 4870740
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/train_features.csv
+      hash: md5
+      md5: 6f527f5b19d70166d5bb6526b71db02e
+      size: 4870740
+    - path: params.yaml
+      hash: md5
+      md5: 74ce9b2edaa13becf88f0306bd854008
+      size: 122
+    - path: src/train.py
+      hash: md5
+      md5: de303aa72f15d5328d5747ea18f67aff
+      size: 895
+    outs:
+    - path: model.pkl
+      hash: md5
+      md5: d57ca5c7f5ca68975e0c16e9c2819b52
+      size: 924325
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed/test_features.csv
+      hash: md5
+      md5: ec9b2d131cd04c20ce1c9651c8b88316
+      size: 1217604
+    - path: model.pkl
+      hash: md5
+      md5: d57ca5c7f5ca68975e0c16e9c2819b52
+      size: 924325
+    - path: params.yaml
+      hash: md5
+      md5: 74ce9b2edaa13becf88f0306bd854008
+      size: 122
+    - path: src/evaluate.py
+      hash: md5
+      md5: 2a70fd1b636d42ffed29a006a126c454
+      size: 1136
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 946fde994507cbec38d4b1953b4b7aa8
+      size: 99
+  predict:
+    cmd: python src/predict.py data/raw/sample_predict.csv 
+      data/processed/predictions.csv
+    deps:
+    - path: data/raw/sample_predict.csv
+      hash: md5
+      md5: 6910309aef2b924f662cbb5fe17e1ccd
+      size: 396
+    - path: model.pkl
+      hash: md5
+      md5: d57ca5c7f5ca68975e0c16e9c2819b52
+      size: 924325
+    - path: params.yaml
+      hash: md5
+      md5: 74ce9b2edaa13becf88f0306bd854008
+      size: 122
+    - path: src/predict.py
+      hash: md5
+      md5: 194cd89c27fa6945da849fd03176d9e7
+      size: 1480
+    outs:
+    - path: data/processed/predictions.csv
+      hash: md5
+      md5: a2038a12aa7a98da7ea3b9e8a035e3bc
+      size: 69
