@@ -1,0 +1,10 @@
+base:
+  random_state: 42
+  target_col: price
+
+data:
+  test_size: 0.2
+
+model:
+  n_estimators: 200
+  max_depth: 5

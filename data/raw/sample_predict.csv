@@ -1,0 +1,4 @@
+bedrooms,bathrooms,sqft_living,sqft_lot,floors,waterfront,view,condition,grade,sqft_above,sqft_basement,yr_built,yr_renovated,zipcode,lat,long,sqft_living15,sqft_lot15
+3,2.5,2100,8000,2,0,0,3,8,1800,300,1995,0,98034,47.6168,-122.0451,2000,7500
+4,3,3000,10000,2,0,2,4,9,2400,600,1985,2010,98033,47.6762,-122.1982,2800,9500
+2,1,1200,6000,1,0,0,3,7,1200,0,1965,0,98023,47.2868,-122.3265,1100,5800
