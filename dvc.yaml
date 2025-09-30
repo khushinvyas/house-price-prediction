@@ -38,3 +38,13 @@ stages:
       - params.yaml
     metrics:
       - metrics.json
+
+  predict:
+    cmd: python src/predict.py data/raw/sample_predict.csv data/processed/predictions.csv
+    deps:
+      - model.pkl
+      - src/predict.py
+      - data/raw/sample_predict.csv
+      - params.yaml
+    outs:
+      - data/processed/predictions.csv
