@@ -1,0 +1,40 @@
+stages:
+  prep:
+    cmd: python src/data_prep.py
+    deps:
+      - data/raw/house_price_prediction.csv
+      - src/data_prep.py
+      - params.yaml
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  feat:
+    cmd: python src/features.py
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - src/features.py
+      - params.yaml
+    outs:
+      - data/processed/train_features.csv
+      - data/processed/test_features.csv
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - data/processed/train_features.csv
+      - src/train.py
+      - params.yaml
+    outs:
+      - model.pkl
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - model.pkl
+      - data/processed/test_features.csv
+      - src/evaluate.py
+      - params.yaml
+    metrics:
+      - metrics.json
