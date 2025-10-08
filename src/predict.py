@@ -4,6 +4,7 @@ import yaml
 import sys
 import joblib
 from sklearn.preprocessing import StandardScaler
+from features import create_features  # Import our feature creation function
 
 # Load params
 with open("params.yaml") as f:
@@ -15,7 +16,10 @@ SCALER_PATH = "scaler.pkl"  # We'll need the scaler used during training
 
 def prepare_features(data):
     """Prepare features in the same way as during training"""
-    # Only apply scaling to numeric columns
+    # First create the engineered features
+    data = create_features(data)
+    
+    # Then scale numeric columns
     numeric_cols = data.select_dtypes(include="number").columns
     scaler = StandardScaler()
     data[numeric_cols] = scaler.fit_transform(data[numeric_cols])
@@ -23,7 +27,8 @@ def prepare_features(data):
 
 def predict(input_csv, output_csv="predictions.csv"):
     # Load model and scaler
-    model = joblib.load(MODEL_PATH)
+    with open(MODEL_PATH, 'rb') as f:
+        model = pickle.load(f)
     
     # Load input data (no target column expected)
     data = pd.read_csv(input_csv)

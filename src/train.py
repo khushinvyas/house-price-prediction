@@ -2,7 +2,7 @@ import pandas as pd
 import yaml
 import pickle
 import os
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
 
 # Load parameters
 with open("params.yaml") as f:
@@ -18,9 +18,12 @@ def main():
     X = df.drop(columns=[params["base"]["target_col"]])
     y = df[params["base"]["target_col"]]
 
-    model = RandomForestRegressor(
+    model = GradientBoostingRegressor(
         n_estimators=params["model"]["n_estimators"],
         max_depth=params["model"]["max_depth"],
+        min_samples_split=params["model"]["min_samples_split"],
+        min_samples_leaf=params["model"]["min_samples_leaf"],
+        learning_rate=params["model"]["learning_rate"],
         random_state=params["base"]["random_state"],
     )
 
